@@ -56,7 +56,6 @@ namespace Shop_Kilunina.Controllers
             return Redirect("/Items/Update?id=" + id);
         }
 
-        /// <summary> Метод отображения страницы изменения предмета
         [HttpGet]
         public ViewResult Update(int id)
         {
@@ -66,7 +65,6 @@ namespace Shop_Kilunina.Controllers
             return View(VMUpdate);
         }
 
-        /// <summary> Метод сохранения изменений предмета
         [HttpPost]
         public RedirectResult Update(int id, string name, string description, IFormFile files, float price, int idCategory)
         {
@@ -75,7 +73,6 @@ namespace Shop_Kilunina.Controllers
             updItem.Description = description;
             updItem.Price = Convert.ToInt32(price);
             updItem.Category = new Categories() { Id = idCategory };
-            // если загружен новый файл — заменяем изображение
             if (files != null)
             {
                 var uploads = Path.Combine(hostingEnvironment.WebRootPath, "img");
@@ -87,11 +84,35 @@ namespace Shop_Kilunina.Controllers
             return Redirect("/Items/List");
         }
 
-        /// <summary> Метод удаления предмета
         public RedirectResult Delete(int id)
         {
             IAllItems.Delete(id);
             return Redirect("/Items/List");
+        }
+
+        public ActionResult Basket(int idItem = -1)
+        {
+            if (idItem != -1)
+            {
+                Startup.BasketItem.Add(new ItemsBasket(1, IAllItems.AllItems.Where(x => x.Id == idItem).First()));
+            }
+            return Json(Startup.BasketItem);
+        }
+
+        public ActionResult BasketCount(int idItem = -1, int count = 0)
+        {
+            if (idItem != -1)
+            {
+                if (count == 0)
+                {
+                    Startup.BasketItem.RemoveAll(x => x.Id == idItem);
+                }
+                else
+                {
+                    Startup.BasketItem.Where(x => x.Id == idItem).First().Count = count;
+                }
+            }
+            return Json(Startup.BasketItem);
         }
     }
 }
