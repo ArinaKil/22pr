@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop_Kilunina.Data.Interfaces;
+using Shop_Kilunina.Data.Models;
 using Shop_Kilunina.Data.ViewModell;
 
 namespace Shop_Kilunina.Controllers
@@ -23,6 +24,13 @@ namespace Shop_Kilunina.Controllers
             VMItems.Categories = IAllCategorys.AllCategorys;
             VMItems.SelectCategory = id;
             return View(VMItems);
+        }
+
+        [HttpGet]
+        public ViewResult Add() 
+        {
+            IEnumerable<Categories> Categorys = IAllCategorys.AllCategorys;
+            return View(Categorys);
         }
     }
 }
