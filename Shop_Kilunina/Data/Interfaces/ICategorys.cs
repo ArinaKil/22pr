@@ -4,6 +4,6 @@ namespace Shop_Kilunina.Data.Interfaces
 {
     public interface ICategorys
     {
-        IEnumerable<Categories> AllCategories { get; }
+        IEnumerable<Categories> AllCategorys { get; }
     }
 }

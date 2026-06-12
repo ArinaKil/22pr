@@ -6,7 +6,7 @@ namespace Shop_Kilunina.Data.Mocks
 {
     public class MockCaregorys : ICategorys
     {
-        public IEnumerable<Categories> AllCategories
+        public IEnumerable<Categories> AllCategorys
         {
             get
             {
