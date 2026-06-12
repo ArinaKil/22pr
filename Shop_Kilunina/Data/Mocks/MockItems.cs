@@ -58,5 +58,10 @@ namespace Shop_Kilunina.Data.Mocks
                 };
             }
         }
+
+        public int Add(Items Item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
