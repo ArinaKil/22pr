@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop_Kilunina.Data.Interfaces;
 using Shop_Kilunina.Data.Models;
 using Shop_Kilunina.Data.ViewModell;
+using System.Linq;
 
 namespace Shop_Kilunina.Controllers
 {
@@ -53,6 +54,44 @@ namespace Shop_Kilunina.Controllers
             newItems.Category = new Categories() { Id = idCategory };
             int id = IAllItems.Add(newItems);
             return Redirect("/Items/Update?id=" + id);
+        }
+
+        /// <summary> Метод отображения страницы изменения предмета
+        [HttpGet]
+        public ViewResult Update(int id)
+        {
+            VMUpdate VMUpdate = new VMUpdate();
+            VMUpdate.Item = IAllItems.AllItems.Where(x => x.Id == id).First();
+            VMUpdate.Categories = IAllCategorys.AllCategorys;
+            return View(VMUpdate);
+        }
+
+        /// <summary> Метод сохранения изменений предмета
+        [HttpPost]
+        public RedirectResult Update(int id, string name, string description, IFormFile files, float price, int idCategory)
+        {
+            Items updItem = IAllItems.AllItems.Where(x => x.Id == id).First();
+            updItem.Name = name;
+            updItem.Description = description;
+            updItem.Price = Convert.ToInt32(price);
+            updItem.Category = new Categories() { Id = idCategory };
+            // если загружен новый файл — заменяем изображение
+            if (files != null)
+            {
+                var uploads = Path.Combine(hostingEnvironment.WebRootPath, "img");
+                var filePath = Path.Combine(uploads, files.FileName);
+                files.CopyTo(new FileStream(filePath, FileMode.Create));
+                updItem.Img = files.FileName;
+            }
+            IAllItems.Update(updItem);
+            return Redirect("/Items/List");
+        }
+
+        /// <summary> Метод удаления предмета
+        public RedirectResult Delete(int id)
+        {
+            IAllItems.Delete(id);
+            return Redirect("/Items/List");
         }
     }
 }

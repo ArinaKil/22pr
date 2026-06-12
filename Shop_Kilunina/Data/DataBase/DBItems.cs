@@ -52,5 +52,23 @@ namespace Shop_Kilunina.Data.DataBase
             MySqlConnection.Close();
             return IdItem;
         }
+
+        public void Update(Items Item)
+        {
+            MySqlConnection MySqlConnection = Connection.MySqlOpen();
+            Connection.MySqlQuery(
+                $"UPDATE `items` SET `Name`='{Item.Name}', `Description`='{Item.Description}', `Img`='{Item.Img}', `Price`={Item.Price}, `IdCategory`={Item.Category.Id} WHERE `Id`={Item.Id};",
+                MySqlConnection);
+            MySqlConnection.Close();
+        }
+
+        public void Delete(int id)
+        {
+            MySqlConnection MySqlConnection = Connection.MySqlOpen();
+            Connection.MySqlQuery(
+                $"DELETE FROM `items` WHERE `Id`={id};",
+                MySqlConnection);
+            MySqlConnection.Close();
+        }
     }
 }

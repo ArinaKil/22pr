@@ -63,5 +63,15 @@ namespace Shop_Kilunina.Data.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Items Item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

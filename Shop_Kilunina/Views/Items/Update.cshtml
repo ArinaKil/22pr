@@ -1,0 +1,44 @@
+@using Shop_Kilunina.Data.ViewModell
+@model VMUpdate
+@{
+    Layout = "_Layout";
+}
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@Model.Item.Id" />
+    <div>
+        Наименование:
+        <br /><input name="name" value="@Model.Item.Name" />
+    </div>
+    <div>
+        Описание:
+        <br /><input name="description" value="@Model.Item.Description" />
+    </div>
+    <div>
+        <label for="file">Изображение (текущее: @Model.Item.Img)</label>
+        <br /><input name="files" type="file" />
+    </div>
+    <div>
+        Стоимость:
+        <br /><input name="price" value="@Model.Item.Price" />
+    </div>
+    <div>
+        Категория:
+        <br /><select name="idCategory">
+            @{
+                foreach (var Category in Model.Categories)
+                {
+                    if (Category.Id == Model.Item.Category.Id)
+                    {
+                        <option selected="selected" value="@Category.Id">@Category.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@Category.Id">@Category.Name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <input type="submit" value="Сохранить" />
+    <a href="/Items/Delete?id=@Model.Item.Id" onclick="return confirm('Удалить предмет?')">Удалить</a>
+</form>
