@@ -34,6 +34,16 @@
         if (item.Category.Id == Model.SelectCategory) {
             <div class="item">
                 <img src="@(item.Img.StartsWith("http") ? item.Img : "/img/" + item.Img)" />
+                <div class="basket">
+                    <div class="button" id="@item.Id">
+                        В корзину
+                    </div>
+                    <div class="count">
+                        <div class="button min">-</div>
+                        <div class="text">1</div>
+                        <div class="button max">+</div>
+                    </div>
+                </div>
                 <div class="data">
                     <h3>Модель: @item.Name</h3>
                     <div>Цена: @item.Price.ToString("c")</div>
@@ -41,7 +51,6 @@
                     <div>Описание: @item.Description</div>
                     <a href="/Items/Update?id=@item.Id">Изменить</a>
                 </div>
-
             </div>
         }
     }
